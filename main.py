@@ -20,7 +20,7 @@ try:
         matrix_size = int(input("Вы ввели неверное число\nВведите количество строк (столбцов) квадратной матрицы в интервале от 6 до 100:"))
     K = int(input("Введите число К="))
     start = time.time()
-    A, F, AT, FT, FA = [], [], [], [], []       # задаем матрицы
+    A, F, AT, FT, FA = [], [], [], [], []                # задаем матрицы
     for i in range(matrix_size):
         A.append([0] * matrix_size)
         F.append([0] * matrix_size)
@@ -30,7 +30,7 @@ try:
     time_next = time.time()
     print_matrix(F, "F", time_next-start)
 
-    for i in range(matrix_size):          # формируем матрицу A
+    for i in range(matrix_size):
         for j in range(matrix_size):
             A[i][j] = random.randint(-10, 10)
     time_prev = time_next
@@ -53,6 +53,7 @@ try:
             E[i][j] = F[i][j]
     time_prev = time_next
     time_next = time.time()
+    print("#####################################################")
     print_matrix(E, "E", time_next - time_prev)
 
     kol_vo = 0
@@ -63,16 +64,15 @@ try:
         for y in range(submatrix_size-1, submatrix_size//2, -1):
             proizv *= E[x][-1-index]
             index += 1
+            print(proizv)
             break
-    for i in range(1, submatrix_size-1):
-        j = -1
-        proizv *= E[i][j]
 
     if submatrix_size % 2 == 1:
         index = 1
         for x in range(submatrix_size//2-1, 0-1, -1):  # обрабатываем подматрицу E
             for y in range(submatrix_size//2+1, submatrix_size, 1):
                 proizv *= E[x][submatrix_size//2+index]
+                print(proizv)
                 index += 1
                 break
     else:
@@ -80,8 +80,14 @@ try:
         for x in range(submatrix_size//2-1, 0-1, -1):
             for y in range(submatrix_size//2, submatrix_size, 1):
                 proizv *= E[x][(submatrix_size//2)+index]
+                print(proizv)
                 index += 1
                 break
+
+    for i in range(1, submatrix_size-1):
+        j = -1
+        proizv *= E[i][j]
+        print(proizv)
 
     for i in range(0, submatrix_size):
         for j in range(i + 1, submatrix_size, 1): # обработка подматрицы Е
@@ -107,14 +113,14 @@ try:
     print_matrix(F, "F", time_next - time_prev)
     print_matrix(A, "A", 0)
 
-    for i in range(matrix_size):      # A^T
+    for i in range(matrix_size):  #
         for j in range(i, matrix_size, 1):
             AT[i][j], AT[j][i] = A[j][i], A[i][j]
     time_prev = time_next
     time_next = time.time()
     print_matrix(AT, "A^T", time_next - time_prev)
 
-    for i in range(matrix_size):      # F^T
+    for i in range(matrix_size):  #
         for j in range(i, matrix_size, 1):
             FT[i][j], FT[j][i] = F[j][i], F[i][j]
     time_prev = time_next
@@ -128,28 +134,28 @@ try:
     time_next = time.time()
     print_matrix(AT, "K*A^T", time_next-time_prev)
 
-    for i in range(matrix_size):       # F+A
+    for i in range(matrix_size):
         for j in range(matrix_size):
             FA[i][j] = F[i][j] + A[i][j]
     time_prev = time_next
     time_next = time.time()
     print_matrix(FA, "FA", time_next - time_prev)
 
-    for i in range(matrix_size):      # K*F^T
+    for i in range(matrix_size):      # K*A^T
         for j in range(matrix_size):
             FT[i][j] = K*FT[i][j]
     time_prev = time_next
     time_next = time.time()
     print_matrix(FT, "K*FT", time_next-time_prev)
 
-    for i in range(matrix_size):      # (К*A^T)*(F+А)
+    for i in range(matrix_size):
         for j in range(matrix_size):
             FA[i][j] = FA[i][j]*AT[i][j]
     time_prev = time_next
     time_next = time.time()
     print_matrix(FA, "FA", time_next - time_prev)
 
-    for i in range(matrix_size):       # ((К*A^T)*(F+А)-K*F^T)
+    for i in range(matrix_size):
         for j in range(matrix_size):
             FA[i][j] = FA[i][j] - FT[i][j]
     time_prev = time_next
