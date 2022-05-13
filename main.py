@@ -9,8 +9,8 @@ import time
 
 def print_matrix(Matrix, matrix_name, timetime):
         print ( f"матрица {matrix_name} промежуточное время = {round(timetime, 2)} seconds")
-        for i in Matrix:            # делаем перебор всех строк матрицы
-            for j in i:     # перебираем все элементы в строке
+        for i in Matrix:            # Делаем перебор всех строк матрицы
+            for j in i:     # Перебираем все элементы в строке
                 print("%5d" % j, end=" ")
             print()
 print("\n")
@@ -20,7 +20,7 @@ try:
         matrix_size = int(input("Вы ввели неверное число\nВведите количество строк (столбцов) квадратной матрицы в интервале от 6 до 100:"))
     K = int(input("Введите число К="))
     start = time.time()
-    A, F, AT, FT, FA = [], [], [], [], []                # задаем матрицы
+    A, F, AT, FT, FA = [], [], [], [], []      # Задаем матрицы
     for i in range(matrix_size):
         A.append([0] * matrix_size)
         F.append([0] * matrix_size)
@@ -44,16 +44,15 @@ try:
     time_next = time.time()
     print_matrix(F, "F", time_next-time_prev)
 
-    E = []  # задаем матрицу E
+    E = []  # Задаем матрицу E
     submatrix_size = matrix_size // 2
     for i in range(submatrix_size):
         E.append([0] * submatrix_size)
-    for i in range(submatrix_size):  # формируем подматрицу E
+    for i in range(submatrix_size):  # Формируем подматрицу E
         for j in range(submatrix_size):
             E[i][j] = F[i][j]
     time_prev = time_next
     time_next = time.time()
-    print("#####################################################")
     print_matrix(E, "E", time_next - time_prev)
 
     kol_vo = 0
@@ -64,15 +63,13 @@ try:
         for y in range(submatrix_size-1, submatrix_size//2, -1):
             proizv *= E[x][-1-index]
             index += 1
-            print(proizv)
             break
 
     if submatrix_size % 2 == 1:
         index = 1
-        for x in range(submatrix_size//2-1, 0-1, -1):  # обрабатываем подматрицу E
+        for x in range(submatrix_size//2-1, 0-1, -1):  # Обрабатываем подматрицу E
             for y in range(submatrix_size//2+1, submatrix_size, 1):
                 proizv *= E[x][submatrix_size//2+index]
-                print(proizv)
                 index += 1
                 break
     else:
@@ -80,22 +77,20 @@ try:
         for x in range(submatrix_size//2-1, 0-1, -1):
             for y in range(submatrix_size//2, submatrix_size, 1):
                 proizv *= E[x][(submatrix_size//2)+index]
-                print(proizv)
                 index += 1
                 break
 
     for i in range(1, submatrix_size-1):
         j = -1
         proizv *= E[i][j]
-        print(proizv)
 
     for i in range(0, submatrix_size):
-        for j in range(i + 1, submatrix_size, 1): # обработка подматрицы Е
+        for j in range(i + 1, submatrix_size, 1): # Обработка подматрицы Е
             if E[i][j] == 0 and j % 2 == 1 and j < submatrix_size - 1 - i:
                 kol_vo += 1
 
     if kol_vo > proizv:
-        for i in range((submatrix_size // 2)-1):  # меняем 1 и 3 области симметрично
+        for i in range((submatrix_size // 2)-1):  # Меняем 1 и 3 области симметрично
             for j in range(1, submatrix_size-1):
                 b1 = j > i
                 b2 = j < submatrix_size - 1 - i
@@ -103,7 +98,7 @@ try:
                     E[i][j], E[submatrix_size - 1 - i][j] = E[submatrix_size - 1 - i][j], E[i][j]
 
     else:
-        for j in range(0, matrix_size // 2 + matrix_size % 2 - 1, 1): # меняем подматрицы Е и С местами несимметрично
+        for j in range(0, matrix_size // 2 + matrix_size % 2 - 1, 1): # Меняем подматрицы Е и С местами несимметрично
             for i in range(matrix_size // 2):
                 F[i][j], F[matrix_size // 2 + matrix_size % 2 + i][matrix_size // 2 + matrix_size % 2 + j] = F[matrix_size // 2 + matrix_size % 2 + i][matrix_size // 2 + matrix_size % 2 + j], F[i][j]
     print_matrix(E, "E", time_next - time_prev)
@@ -111,16 +106,15 @@ try:
     time_prev = time_next
     time_next = time.time()
     print_matrix(F, "F", time_next - time_prev)
-    print_matrix(A, "A", 0)
 
-    for i in range(matrix_size):  #
+    for i in range(matrix_size):  # A^T
         for j in range(i, matrix_size, 1):
             AT[i][j], AT[j][i] = A[j][i], A[i][j]
     time_prev = time_next
     time_next = time.time()
     print_matrix(AT, "A^T", time_next - time_prev)
 
-    for i in range(matrix_size):  #
+    for i in range(matrix_size):  # F^T
         for j in range(i, matrix_size, 1):
             FT[i][j], FT[j][i] = F[j][i], F[i][j]
     time_prev = time_next
@@ -135,7 +129,7 @@ try:
     print_matrix(AT, "K*A^T", time_next-time_prev)
 
     for i in range(matrix_size):
-        for j in range(matrix_size):
+        for j in range(matrix_size): # F+A
             FA[i][j] = F[i][j] + A[i][j]
     time_prev = time_next
     time_next = time.time()
